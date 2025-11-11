@@ -36,12 +36,12 @@ Render créera automatiquement :
 Dans le service web `zed-collab`, allez dans **"Environment"** et ajoutez :
 
 ```bash
-# 1. Générer un token API sécurisé
+# 1. Ajouter l'URL de la base de données (Internal Database URL de l'étape 4)
+DATABASE_URL=<Internal Database URL de zed-database>
+
+# 2. Générer un token API sécurisé
 API_TOKEN=$(openssl rand -hex 32)
 # Copiez le résultat et ajoutez-le comme variable
-
-# 2. La DATABASE_URL sera automatiquement injectée par Render
-# Mais vous pouvez la vérifier dans les variables d'environnement
 
 # 3. Si vous utilisez S3/MinIO pour le blob store
 BLOB_STORE_URL=https://votre-endpoint-s3.com

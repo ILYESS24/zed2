@@ -39,8 +39,8 @@ Dans le dashboard Render, pour chaque service, configurez les variables d'enviro
 #### Variables OBLIGATOIRES :
 
 ```bash
-# Base de données principale
-DATABASE_URL=<URL de la base de données PostgreSQL créée par Render>
+# Base de données principale (utilisez l'Internal Database URL de la DB créée à l'étape 3)
+DATABASE_URL=<Internal Database URL de zed-database>
 
 # Token API (générer un token sécurisé)
 API_TOKEN=<Générez un token aléatoire sécurisé, ex: openssl rand -hex 32>

@@ -81,21 +81,13 @@ services:
       - key: ZED_CLIENT_CHECKSUM_SEED
         sync: false  # Optionnel
 
-  # Base de données PostgreSQL
-  - type: pgsql
-    name: zed-database
-    plan: starter  # starter, standard, pro
-    region: oregon
-    databaseName: zed
-    databaseUser: zed
-    postgresMajorVersion: 15
-
-  # Base de données LLM (optionnelle - pour les fonctionnalités LLM)
-  - type: pgsql
-    name: zed-llm-database
-    plan: starter
-    region: oregon
-    databaseName: zed_llm
-    databaseUser: zed_llm
-    postgresMajorVersion: 15
+# NOTE: Les bases de données PostgreSQL doivent être créées manuellement dans le dashboard Render
+# puis leurs URLs doivent être ajoutées dans les variables d'environnement ci-dessus.
+# 
+# Pour créer les bases de données :
+# 1. Dans Render Dashboard : "New +" → "PostgreSQL"
+# 2. Créez deux bases de données :
+#    - zed-database (pour DATABASE_URL)
+#    - zed-llm-database (pour LLM_DATABASE_URL, optionnel)
+# 3. Copiez les "Internal Database URL" et ajoutez-les comme variables d'environnement
 
