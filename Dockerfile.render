@@ -12,18 +12,29 @@ RUN apt-get update && \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copier tous les fichiers du projet
-COPY . .
+# Étape 1: Copier uniquement les fichiers de configuration Cargo
+# Cela permet d'utiliser le cache Docker pour les dépendances
+COPY Cargo.toml Cargo.lock ./
+COPY .cargo/ .cargo/
 
 # Remplacer la configuration Cargo avec celle utilisée par collab
 RUN cp ./.cargo/collab-config.toml ./.cargo/config.toml 2>/dev/null || true
 
-# Compiler le serveur collab
+# Étape 2: Copier tous les fichiers (nécessaire car les dépendances workspace pointent vers d'autres crates)
+COPY . .
+
+# Compiler uniquement le serveur collab avec optimisations
 ARG CARGO_PROFILE_RELEASE_PANIC=abort
 ENV CARGO_PROFILE_RELEASE_PANIC=$CARGO_PROFILE_RELEASE_PANIC
 
-# Build (Render gère le cache automatiquement)
-RUN cargo build --release --package collab --bin collab
+# Utiliser toutes les CPUs disponibles pour la compilation
+# Limiter à 4 jobs pour éviter la surcharge mémoire sur Render
+ENV CARGO_BUILD_JOBS=4
+
+# Build optimisé - compile uniquement collab et ses dépendances transitives
+# Note: Cargo va compiler beaucoup de crates à cause des dépendances workspace,
+# mais c'est nécessaire pour que le build fonctionne correctement
+RUN cargo build --release --package collab --bin collab --jobs 4
 
 # Copier le binaire compilé
 RUN cp /app/target/release/collab /app/collab
