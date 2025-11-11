@@ -1,0 +1,101 @@
+services:
+  # Service principal - Serveur de collaboration Zed
+  - type: web
+    name: zed-collab
+    runtime: docker
+    dockerfilePath: ./Dockerfile.render
+    dockerContext: .
+    plan: starter  # starter, standard, pro, pro_plus
+    region: oregon  # oregon, frankfurt, singapore, ohio, virginia
+    healthCheckPath: /healthz
+    envVars:
+      # Configuration de base
+      - key: HTTP_PORT
+        value: 8080
+      - key: ZED_ENVIRONMENT
+        value: production
+      - key: RUST_LOG
+        value: info
+      - key: LOG_JSON
+        value: "true"
+      - key: RUST_BACKTRACE
+        value: "1"
+      
+      # Base de données principale (PostgreSQL)
+      - key: DATABASE_URL
+        sync: false  # À configurer manuellement dans le dashboard
+      - key: DATABASE_MAX_CONNECTIONS
+        value: "10"
+      
+      # Base de données LLM (optionnelle)
+      - key: LLM_DATABASE_URL
+        sync: false  # Optionnel
+      - key: LLM_DATABASE_MAX_CONNECTIONS
+        value: "5"
+      
+      # API Token (générer un token sécurisé)
+      - key: API_TOKEN
+        sync: false  # À générer et configurer
+      
+      # LLM API Secret (optionnel)
+      - key: LLM_API_SECRET
+        sync: false  # Optionnel
+      
+      # LiveKit (pour audio/vidéo - optionnel)
+      - key: LIVEKIT_SERVER
+        sync: false  # Optionnel
+      - key: LIVEKIT_KEY
+        sync: false  # Optionnel
+      - key: LIVEKIT_SECRET
+        sync: false  # Optionnel
+      
+      # Blob Store (S3-compatible - MinIO, AWS S3, etc.)
+      - key: BLOB_STORE_URL
+        sync: false  # Ex: https://s3.amazonaws.com ou votre MinIO
+      - key: BLOB_STORE_REGION
+        sync: false  # Ex: us-east-1
+      - key: BLOB_STORE_ACCESS_KEY
+        sync: false
+      - key: BLOB_STORE_SECRET_KEY
+        sync: false
+      - key: BLOB_STORE_BUCKET
+        sync: false
+      
+      # Clés API LLM (optionnelles)
+      - key: OPENAI_API_KEY
+        sync: false  # Optionnel
+      - key: ANTHROPIC_API_KEY
+        sync: false  # Optionnel
+      - key: GOOGLE_AI_API_KEY
+        sync: false  # Optionnel
+      
+      # Configuration des invitations
+      - key: INVITE_LINK_PREFIX
+        value: https://your-domain.com/invites/
+      
+      # Auto-join channel (optionnel)
+      - key: AUTO_JOIN_CHANNEL_ID
+        sync: false  # Optionnel
+      
+      # Client checksum seed (optionnel)
+      - key: ZED_CLIENT_CHECKSUM_SEED
+        sync: false  # Optionnel
+
+  # Base de données PostgreSQL
+  - type: pgsql
+    name: zed-database
+    plan: starter  # starter, standard, pro
+    region: oregon
+    databaseName: zed
+    databaseUser: zed
+    postgresMajorVersion: 15
+
+  # Base de données LLM (optionnelle - pour les fonctionnalités LLM)
+  - type: pgsql
+    name: zed-llm-database
+    plan: starter
+    region: oregon
+    databaseName: zed_llm
+    databaseUser: zed_llm
+    postgresMajorVersion: 15
+

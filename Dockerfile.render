@@ -1,0 +1,59 @@
+# Dockerfile optimisé pour Render.com
+# syntax = docker/dockerfile:1.2
+
+FROM rust:1.90-bookworm as builder
+WORKDIR /app
+
+# Installer les dépendances système nécessaires
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    cmake \
+    pkg-config \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copier tous les fichiers du projet
+COPY . .
+
+# Remplacer la configuration Cargo avec celle utilisée par collab
+RUN cp ./.cargo/collab-config.toml ./.cargo/config.toml 2>/dev/null || true
+
+# Compiler le serveur collab
+ARG CARGO_PROFILE_RELEASE_PANIC=abort
+ENV CARGO_PROFILE_RELEASE_PANIC=$CARGO_PROFILE_RELEASE_PANIC
+
+# Build (Render gère le cache automatiquement)
+RUN cargo build --release --package collab --bin collab
+
+# Copier le binaire compilé
+RUN cp /app/target/release/collab /app/collab
+
+# Image runtime
+FROM debian:bookworm-slim
+
+# Installer les dépendances runtime
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libcurl4 \
+    libssl3 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copier le binaire et les migrations
+COPY --from=builder /app/collab /app/collab
+COPY --from=builder /app/crates/collab/migrations /app/migrations
+COPY --from=builder /app/crates/collab/migrations_llm /app/migrations_llm
+
+# Variables d'environnement pour les migrations
+ENV MIGRATIONS_PATH=/app/migrations
+ENV LLM_DATABASE_MIGRATIONS_PATH=/app/migrations_llm
+
+# Exposer le port
+EXPOSE 8080
+
+# Point d'entrée
+ENTRYPOINT ["/app/collab"]
+CMD ["serve", "all"]
+

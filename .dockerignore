@@ -1,0 +1,29 @@
+# Fichiers à exclure du contexte Docker pour Render
+target/
+.git/
+.github/
+.vscode/
+.idea/
+*.md
+!README.md
+.env*
+*.log
+*.tmp
+node_modules/
+.blob_store/
+*.swp
+*.swo
+*~
+
+# Exclure les fichiers de développement
+script/
+docs/
+tooling/
+extensions/
+
+# Garder uniquement ce qui est nécessaire pour le build
+!Cargo.toml
+!Cargo.lock
+!crates/
+!.cargo/
+
