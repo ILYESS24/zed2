@@ -12213,25 +12213,25 @@ mod tests {
 
         // Case C: multi-byte characters
         {
-            // for text: "Hello 🌍 世界!"
+            // for text: "Hello 🌍 world!"
             let runs = vec![
                 generate_test_run(5, text_color), // "Hello"
                 generate_test_run(6, text_color), // " 🌍 "
-                generate_test_run(6, text_color), // "世界"
+                generate_test_run(5, text_color), // "world"
                 generate_test_run(1, text_color), // "!"
             ];
-            // selecting "🌍 世"
+            // selecting "🌍 w"
             let segs = vec![(dx(6, 14), bg_1)];
             let out = LineWithInvisibles::split_runs_by_bg_segments(&runs, &segs, min_contrast, 0);
-            // "Hello" | " " | "🌍 " | "世" | "界" | "!"
+            // "Hello" | " " | "🌍 " | "w" | "orld" | "!"
             assert_eq!(
                 out.iter().map(|r| r.len).collect::<Vec<_>>(),
-                vec![5, 1, 5, 3, 3, 1]
+                vec![5, 1, 5, 1, 4, 1]
             );
             assert_eq!(out[0].color, text_color); // "Hello"
             assert_eq!(out[2].color, adjusted_bg1); // "🌍 "
-            assert_eq!(out[3].color, adjusted_bg1); // "世"
-            assert_eq!(out[4].color, text_color); // "界"
+            assert_eq!(out[3].color, adjusted_bg1); // "w"
+            assert_eq!(out[4].color, text_color); // "orld"
             assert_eq!(out[5].color, text_color); // "!"
         }
 

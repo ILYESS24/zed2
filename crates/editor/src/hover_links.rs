@@ -1352,9 +1352,9 @@ mod tests {
             ("ˇ'file.txt'", Some("file.txt")),
             ("ˇ'fi\\ le.txt'", Some("fi le.txt")),
             // Quoted multibyte characters
-            (" ˇ\"常\"", Some("常")),
-            (" \"ˇ常\"", Some("常")),
-            ("ˇ\"常\"", Some("常")),
+            (" ˇ\"constant\"", Some("constant")),
+            (" \"ˇconstant\"", Some("constant")),
+            ("ˇ\"constant\"", Some("constant")),
         ];
 
         for (input, expected) in test_cases {

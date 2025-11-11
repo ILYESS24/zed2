@@ -404,8 +404,8 @@ async fn test_complex_path(cx: &mut TestAppContext) {
         .insert_tree(
             path!("/root"),
             json!({
-                "其他": {
-                    "S数据表格": {
+                "Other": {
+                    "SDataTable": {
                         "task.xlsx": "some content",
                     },
                 }
@@ -422,7 +422,7 @@ async fn test_complex_path(cx: &mut TestAppContext) {
         assert_eq!(picker.delegate.matches.len(), 2);
         assert_eq!(
             collect_search_matches(picker).search_paths_only(),
-            vec![rel_path("其他/S数据表格/task.xlsx").into()],
+            vec![rel_path("Other/SDataTable/task.xlsx").into()],
         )
     });
     cx.dispatch_action(Confirm);

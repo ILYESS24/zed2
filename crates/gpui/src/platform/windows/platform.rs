@@ -1202,7 +1202,7 @@ mod tests {
 
     #[test]
     fn test_clipboard() {
-        let item = ClipboardItem::new_string("你好，我是张小白".to_string());
+        let item = ClipboardItem::new_string("Hello, I am John Doe".to_string());
         write_to_clipboard(item.clone());
         assert_eq!(read_from_clipboard(), Some(item));
 

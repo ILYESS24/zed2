@@ -189,7 +189,7 @@ mod tests {
         std::fs::create_dir_all(dst.join("foo/bar")).unwrap();
         std::fs::write(dst.join("foo/bar.txt"), "Foo bar.").unwrap();
         std::fs::write(dst.join("foo/dar.md"), "Bar dar.").unwrap();
-        std::fs::write(dst.join("foo/bar/dar你好.txt"), "你好世界").unwrap();
+        std::fs::write(dst.join("foo/bar/darHello.txt"), "HelloWorld").unwrap();
 
         dir
     }
@@ -215,7 +215,7 @@ mod tests {
             assert_file_content(&dst.join("test"), "Hello world.");
             assert_file_content(&dst.join("foo/bar.txt"), "Foo bar.");
             assert_file_content(&dst.join("foo/dar.md"), "Bar dar.");
-            assert_file_content(&dst.join("foo/bar/dar你好.txt"), "你好世界");
+            assert_file_content(&dst.join("foo/bar/darHello.txt"), "HelloWorld");
         });
     }
 

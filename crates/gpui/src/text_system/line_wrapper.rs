@@ -64,7 +64,7 @@ impl LineWrapper {
                                 last_candidate_width = width;
                             }
                         } else {
-                            // CJK may not be space separated, e.g.: `Hello world你好世界`
+                            // CJK may not be space separated, e.g.: `Hello worldHello world`
                             if c != ' ' && first_non_whitespace_ix.is_some() {
                                 last_candidate_ix = ix;
                                 last_candidate_width = width;

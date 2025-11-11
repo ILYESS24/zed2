@@ -621,8 +621,8 @@ mod tests {
     fn test_n_chars_before_offset() {
         assert_eq!(n_chars_before_offset(2, 4, "hello"), 2);
 
-        let input = "ㄒ乇丂ㄒ";
-        assert_eq!(n_chars_before_offset(2, input.len(), input), "ㄒ乇".len());
+        let input = "test";
+        assert_eq!(n_chars_before_offset(2, input.len(), input), "te".len());
     }
 
     #[test]

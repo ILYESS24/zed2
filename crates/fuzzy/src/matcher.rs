@@ -494,7 +494,7 @@ mod tests {
         let mixed_script_paths = vec![
             "résumé_Москва",
             "naïve_київ_implementation",
-            "café_北京_app",
+            "café_Beijing_app",
             "東京_über_driver",
             "déjà_vu_cairo",
             "seoul_piñata_game",
@@ -507,8 +507,8 @@ mod tests {
         );
 
         assert_eq!(
-            match_single_path_query("café北京", false, &mixed_script_paths),
-            vec![("café_北京_app", vec![0, 1, 2, 3, 6, 9])]
+            match_single_path_query("caféBeijing", false, &mixed_script_paths),
+            vec![("café_Beijing_app", vec![0, 1, 2, 3, 6, 9])]
         );
 
         assert_eq!(

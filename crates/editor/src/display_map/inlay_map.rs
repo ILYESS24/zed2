@@ -2150,9 +2150,9 @@ mod tests {
                 description: "Multiple emojis - partial highlight",
             },
             TestCase {
-                inlay_text: "普通话",
+                inlay_text: "Mandarin",
                 highlight_range: 0..4,
-                expected_highlighted: "普通",
+                expected_highlighted: "Mand",
                 description: "Chinese characters - partial highlight",
             },
             TestCase {

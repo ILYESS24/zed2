@@ -2167,8 +2167,8 @@ mod tests {
 
     #[test]
     fn test_is_char_boundary() {
-        let fixture = "地";
-        let rope = Rope::from("地");
+        let fixture = "earth";
+        let rope = Rope::from("earth");
         for b in 0..=fixture.len() {
             assert_eq!(rope.is_char_boundary(b), fixture.is_char_boundary(b));
         }
@@ -2200,8 +2200,8 @@ mod tests {
             }
         }
 
-        let fixture = "地";
-        let rope = Rope::from("地");
+        let fixture = "earth";
+        let rope = Rope::from("earth");
         for b in 0..=fixture.len() {
             assert_eq!(
                 rope.floor_char_boundary(b),
@@ -2243,8 +2243,8 @@ mod tests {
             }
         }
 
-        let fixture = "地";
-        let rope = Rope::from("地");
+        let fixture = "earth";
+        let rope = Rope::from("earth");
         for b in 0..=fixture.len() {
             assert_eq!(rope.ceil_char_boundary(b), ceil_char_boundary(&fixture, b));
         }

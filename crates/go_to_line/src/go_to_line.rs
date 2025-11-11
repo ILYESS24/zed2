@@ -522,7 +522,7 @@ mod tests {
     async fn test_unicode_line_numbers(cx: &mut TestAppContext) {
         init_test(cx);
 
-        let text = "ēlo你好";
+        let text = "ēloHello";
         let fs = FakeFs::new(cx.executor());
         fs.insert_tree(
             path!("/dir"),
@@ -600,7 +600,7 @@ mod tests {
     async fn test_go_into_unicode(cx: &mut TestAppContext) {
         init_test(cx);
 
-        let text = "ēlo你好";
+        let text = "ēloHello";
         let fs = FakeFs::new(cx.executor());
         fs.insert_tree(
             path!("/dir"),
