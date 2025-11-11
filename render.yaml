@@ -5,7 +5,7 @@ services:
     runtime: docker
     dockerfilePath: ./Dockerfile.render
     dockerContext: .
-    plan: starter  # starter, standard, pro, pro_plus
+    plan: standard  # starter (512MB - INSUFFISANT), standard (512MB-2GB), pro (2-4GB)
     region: oregon  # oregon, frankfurt, singapore, ohio, virginia
     healthCheckPath: /healthz
     envVars:
